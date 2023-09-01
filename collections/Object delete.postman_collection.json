@@ -1,0 +1,102 @@
+{
+	"info": {
+		"_postman_id": "e706e9a9-2026-418d-a285-f6782d9a57f1",
+		"name": "Object delete",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28231394",
+		"_collection_link": "https://speeding-space-408858.postman.co/workspace/cpq-tools~a71db272-a10d-4b4e-b313-324b139777bf/collection/28231394-e706e9a9-2026-418d-a285-f6782d9a57f1?action=share&creator=28231394&source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Assembly List and Delete",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const outputJson = xml2Json(pm.response.text());\r",
+							"\r",
+							"var headers = outputJson.headers.header;\r",
+							"\r",
+							"if (!Array.isArray(headers)) {\r",
+							"    headers = [headers];\r",
+							"};\r",
+							"\r",
+							"var ids = headers.map(header => header && header.$ && header.$.id).filter(id => id !== undefined);\r",
+							"\r",
+							"\r",
+							"//console.log(ids);\r",
+							"\r",
+							"var URL = pm.environment.get('baseUrl');\r",
+							"var TOKEN = Buffer.from(pm.environment.get('app_user') + \":\" + pm.environment.get('app_password')).toString('base64');\r",
+							"var OBJECT = pm.environment.get('object');\r",
+							"\r",
+							"postman.setNextRequest(\"null\");\r",
+							"\r",
+							"ids.forEach(current_id => {\r",
+							"\r",
+							"    pm.sendRequest({url: `${URL}/api/${OBJECT}/${current_id}`, method: 'DELETE', header: {'Authorization': `Basic ${TOKEN}`}}, function () {});\r",
+							"\r",
+							"    postman.setNextRequest(\"Assembly List and Delete\");\r",
+							"\r",
+							"});\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/{{object}}/headers",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"{{object}}",
+						"headers"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{app_password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{app_user}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}

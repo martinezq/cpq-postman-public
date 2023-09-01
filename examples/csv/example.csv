@@ -1,0 +1,7 @@
+assembly,new_constraint
+1 NPS_Squeegees_virtualAssembly,belongs_to_line_internal_catalog in {No}<->kmatMachine=OthersSqueegeeAccessories1.Z_MachineSelector
+1 NPS_Squeegees_virtualAssembly,belongs_to_line_internal_catalog in {No}<->kmatMachine=OthersSqueegeeAccessories2.Z_MachineSelector
+1 NPS_Squeegees_virtualAssembly,belongs_to_line_internal_catalog in {No}<->kmatMachine=Squeegee1.Z_MachineSelector
+1 NPS_Squeegees_virtualAssembly,belongs_to_line_internal_catalog in {No}<->kmatMachine=Squeegee2.Z_MachineSelector
+1 NPS_Squeegees_virtualAssembly,belongs_to_line_internal_catalog in {No}<->kmatMachine=Squeegee3.Z_MachineSelector
+1 NPS_Squeegees_virtualAssembly,belongs_to_line_internal_catalog in {No}<->kmatMachine=Squeegee4.Z_MachineSelector

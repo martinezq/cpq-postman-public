@@ -1,0 +1,154 @@
+{
+	"info": {
+		"_postman_id": "1fd1b92e-85b9-485f-bb03-5adc755ace26",
+		"name": "Constraint sorter",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "28231394",
+		"_collection_link": "https://www.postman.com/speeding-space-408858/workspace/cpq-example/collection/28231394-1fd1b92e-85b9-485f-bb03-5adc755ace26?source=collection_link"
+	},
+	"item": [
+		{
+			"name": "Assembly",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"const output = pm.response.json();\r",
+							"\r",
+							"const converted = {\r",
+							"    assembly: output.assemblyResource.assembly,\r",
+							"    positionList: output.positionResourceList?.map(x => x.position) || [],\r",
+							"    attributeList: output.attributeResourceList?.map(x => x.attribute) || [],\r",
+							"    variantList: output.variantResourceList?.map(x => x.variant) || [],\r",
+							"    ruleList: output.ruleResourceList?.map(x => x.rule) || [],\r",
+							"}\r",
+							"\r",
+							"const assembly_id = pm.environment.set(\"assembly_id\", output.assemblyResource.assemblyReference.id);\r",
+							"const sorted = converted.ruleList.sort((rule1, rule2) => (rule1.constraint.toLowerCase() > rule2.constraint.toLowerCase()) ? 1 : -1);\r",
+							"\r",
+							"converted.ruleList = sorted;\r",
+							"\r",
+							"//console.log(sorted);\r",
+							"//console.log(pm.environment.get(\"assembly_id\"));\r",
+							"//console.log(JSON.stringify(converted, null, 2));\r",
+							"\r",
+							"pm.environment.set(\"assemblyContent\", JSON.stringify(converted));"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{baseUrl}}/api/product-modeling/v2/{{ticket}}/assembly?name={{assembly}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"product-modeling",
+						"v2",
+						"{{ticket}}",
+						"assembly"
+					],
+					"query": [
+						{
+							"key": "name",
+							"value": "{{assembly}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Assembly",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "PUT",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{{assemblyContent}}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/api/product-modeling/v2/{{ticket}}/assembly/{{assembly_id}}",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"api",
+						"product-modeling",
+						"v2",
+						"{{ticket}}",
+						"assembly",
+						"{{assembly_id}}"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "password",
+				"value": "{{admin_password}}",
+				"type": "string"
+			},
+			{
+				"key": "username",
+				"value": "{{admin_user}}",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "assembly",
+			"value": "ENTER NAME",
+			"type": "string"
+		}
+	]
+}
